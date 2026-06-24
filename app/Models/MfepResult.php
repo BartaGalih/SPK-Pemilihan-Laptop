@@ -6,19 +6,28 @@ use Illuminate\Database\Eloquent\Model;
 
 class MfepResult extends Model
 {
-    protected $fillable = [
-        'laptop_id', 'rank',
-        'nef_c1','nef_c2','nef_c3','nef_c4','nef_c5','nef_c6',
-        'nbe_c1','nbe_c2','nbe_c3','nbe_c4','nbe_c5','nbe_c6',
-        'tbe', 'calculated_at',
-    ];
+    protected $fillable = ['laptop_id', 'rank', 'tbe', 'calculated_at'];
 
     protected $casts = [
+        'tbe'           => 'float',
         'calculated_at' => 'datetime',
     ];
 
     public function laptop()
     {
         return $this->belongsTo(Laptop::class);
+    }
+
+    public function details()
+    {
+        return $this->hasMany(MfepResultDetail::class);
+    }
+
+    /**
+     * Ambil detail (nef/nbe) untuk sebuah kriteria.
+     */
+    public function detailFor($criteriaId)
+    {
+        return $this->details->firstWhere('criteria_id', $criteriaId);
     }
 }

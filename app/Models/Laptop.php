@@ -9,26 +9,23 @@ class Laptop extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'name', 'price', 'ram', 'cpu_score', 'weight_kg', 'storage', 'battery',
-    ];
+    protected $fillable = ['name'];
 
-    protected $casts = [
-        'price'     => 'integer',
-        'ram'       => 'integer',
-        'cpu_score' => 'integer',
-        'weight_kg' => 'float',
-        'storage'   => 'integer',
-        'battery'   => 'float',
-    ];
+    public function values()
+    {
+        return $this->hasMany(LaptopValue::class);
+    }
 
     public function mfepResult()
     {
         return $this->hasOne(MfepResult::class);
     }
 
-    public function getPriceFormattedAttribute(): string
+    /**
+     * Ambil nilai laptop untuk sebuah kriteria (berdasarkan criteria_id).
+     */
+    public function valueFor($criteriaId)
     {
-        return 'Rp ' . number_format($this->price, 0, ',', '.');
+        return optional($this->values->firstWhere('criteria_id', $criteriaId))->value;
     }
 }

@@ -15,17 +15,14 @@
 <div class="card">
     <div class="card-body p-0">
         <div class="table-responsive">
-            <table class="table table-hover mb-0">
+            <table class="table table-hover mb-0 align-middle">
                 <thead class="table-light">
                     <tr>
                         <th class="ps-3">#</th>
                         <th>Nama Laptop</th>
-                        <th>Harga (Rp)</th>
-                        <th>RAM</th>
-                        <th>CPU Score</th>
-                        <th>Bobot</th>
-                        <th>Storage</th>
-                        <th>Baterai</th>
+                        @foreach($criteria as $c)
+                            <th>{{ $c->name }} @if($c->unit)<small class="text-muted">({{ $c->unit }})</small>@endif</th>
+                        @endforeach
                         <th class="text-center">Aksi</th>
                     </tr>
                 </thead>
@@ -34,13 +31,10 @@
                     <tr>
                         <td class="ps-3 text-muted">{{ $loop->iteration + ($laptops->currentPage()-1)*$laptops->perPage() }}</td>
                         <td class="fw-semibold">{{ $laptop->name }}</td>
-                        <td>{{ number_format($laptop->price, 0, ',', '.') }}</td>
-                        <td><span class="badge bg-info text-dark">{{ $laptop->ram }} GB</span></td>
-                        <td>{{ number_format($laptop->cpu_score, 0, ',', '.') }}</td>
-                        <td>{{ $laptop->weight_kg }} kg</td>
-                        <td>{{ number_format($laptop->storage) }} GB</td>
-                        <td>{{ $laptop->battery }} jam</td>
-                        <td class="text-center">
+                        @foreach($criteria as $c)
+                            <td>{{ rtrim(rtrim(number_format($laptop->valueFor($c->id) ?? 0, 2, ',', '.'), '0'), ',') }}</td>
+                        @endforeach
+                        <td class="text-center text-nowrap">
                             <a href="{{ route('laptops.show', $laptop) }}" class="btn btn-sm btn-outline-secondary" title="Detail">
                                 <i class="bi bi-eye"></i>
                             </a>
@@ -58,7 +52,7 @@
                     </tr>
                     @empty
                     <tr>
-                        <td colspan="9" class="text-center py-4 text-muted">
+                        <td colspan="{{ 3 + $criteria->count() }}" class="text-center py-4 text-muted">
                             <i class="bi bi-inbox fs-3 d-block mb-2"></i>
                             Belum ada data laptop.
                             <a href="{{ route('laptops.create') }}">Tambah sekarang</a>

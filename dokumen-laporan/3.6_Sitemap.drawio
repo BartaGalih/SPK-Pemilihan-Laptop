@@ -1,0 +1,100 @@
+<mxfile host="app.diagrams.net" type="device">
+  <diagram name="Sitemap SPK Rekomendasi Laptop" id="sitemap-spk-laptop">
+    <mxGraphModel dx="1300" dy="850" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1500" pageHeight="900" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+
+        <!-- Root -->
+        <mxCell id="root" value="SPK Rekomendasi Laptop&#10;(Beranda /)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#0D47A1;fontColor=#FFFFFF;fontStyle=1;fontSize=16;strokeColor=#000000;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="600" y="40" width="300" height="64" as="geometry"/>
+        </mxCell>
+
+        <!-- Menu level -->
+        <mxCell id="m1" value="Data Laptop&#10;/laptops" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1565C0;fontColor=#FFFFFF;fontStyle=1;fontSize=15;strokeColor=#000000;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="60" y="220" width="280" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="m2" value="Kriteria &amp; Bobot&#10;/criteria" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#2E7D32;fontColor=#FFFFFF;fontStyle=1;fontSize=15;strokeColor=#000000;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="430" y="220" width="280" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="m3" value="Hasil Rekomendasi&#10;/results" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E65100;fontColor=#FFFFFF;fontStyle=1;fontSize=15;strokeColor=#000000;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="800" y="220" width="280" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="m4" value="Arsip Hasil&#10;/snapshots" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#4A148C;fontColor=#FFFFFF;fontStyle=1;fontSize=15;strokeColor=#000000;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="1170" y="220" width="280" height="60" as="geometry"/>
+        </mxCell>
+
+        <!-- Data Laptop children -->
+        <mxCell id="m1a" value="Tambah Laptop&#10;/laptops/create" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;fontColor=#000000;fontSize=15;strokeColor=#1565C0;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="80" y="360" width="240" height="52" as="geometry"/>
+        </mxCell>
+        <mxCell id="m1b" value="Detail Laptop&#10;/laptops/{id}" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;fontColor=#000000;fontSize=15;strokeColor=#1565C0;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="80" y="432" width="240" height="52" as="geometry"/>
+        </mxCell>
+        <mxCell id="m1c" value="Edit Laptop&#10;/laptops/{id}/edit" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;fontColor=#000000;fontSize=15;strokeColor=#1565C0;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="80" y="504" width="240" height="52" as="geometry"/>
+        </mxCell>
+        <mxCell id="m1d" value="Aksi: Hapus Laptop&#10;DELETE /laptops/{id}" style="rounded=1;whiteSpace=wrap;html=1;dashed=1;fillColor=#FFE082;fontColor=#000000;fontStyle=2;fontSize=15;strokeColor=#000000;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="80" y="576" width="240" height="52" as="geometry"/>
+        </mxCell>
+
+        <!-- Kriteria children -->
+        <mxCell id="m2a" value="Tambah Kriteria&#10;/criteria/create" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;fontColor=#000000;fontSize=15;strokeColor=#2E7D32;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="450" y="360" width="240" height="52" as="geometry"/>
+        </mxCell>
+        <mxCell id="m2b" value="Edit Kriteria&#10;/criteria/{id}/edit" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;fontColor=#000000;fontSize=15;strokeColor=#2E7D32;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="450" y="432" width="240" height="52" as="geometry"/>
+        </mxCell>
+        <mxCell id="m2c" value="Aksi: Hapus Kriteria&#10;DELETE (soft delete)" style="rounded=1;whiteSpace=wrap;html=1;dashed=1;fillColor=#FFE082;fontColor=#000000;fontStyle=2;fontSize=15;strokeColor=#000000;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="450" y="504" width="240" height="52" as="geometry"/>
+        </mxCell>
+
+        <!-- Hasil children (aksi) -->
+        <mxCell id="m3a" value="Aksi: Hitung MFEP&#10;POST /results/calculate" style="rounded=1;whiteSpace=wrap;html=1;dashed=1;fillColor=#FFE082;fontColor=#000000;fontStyle=2;fontSize=15;strokeColor=#000000;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="820" y="360" width="240" height="52" as="geometry"/>
+        </mxCell>
+        <mxCell id="m3b" value="Aksi: Simpan ke Arsip&#10;POST /results/snapshot" style="rounded=1;whiteSpace=wrap;html=1;dashed=1;fillColor=#FFE082;fontColor=#000000;fontStyle=2;fontSize=15;strokeColor=#000000;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="820" y="432" width="240" height="52" as="geometry"/>
+        </mxCell>
+
+        <!-- Arsip children -->
+        <mxCell id="m4a" value="Detail Arsip&#10;/snapshots/{id}" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;fontColor=#000000;fontSize=15;strokeColor=#4A148C;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="1190" y="360" width="240" height="52" as="geometry"/>
+        </mxCell>
+        <mxCell id="m4b" value="Aksi: Hapus Arsip&#10;DELETE /snapshots/{id}" style="rounded=1;whiteSpace=wrap;html=1;dashed=1;fillColor=#FFE082;fontColor=#000000;fontStyle=2;fontSize=15;strokeColor=#000000;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="1190" y="432" width="240" height="52" as="geometry"/>
+        </mxCell>
+
+        <!-- Edges root -> menus -->
+        <mxCell id="e0a" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;strokeColor=#000000;strokeWidth=2;" edge="1" parent="1" source="root" target="m1"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e0b" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;strokeColor=#000000;strokeWidth=2;" edge="1" parent="1" source="root" target="m2"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e0c" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;strokeColor=#000000;strokeWidth=2;" edge="1" parent="1" source="root" target="m3"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e0d" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;strokeColor=#000000;strokeWidth=2;" edge="1" parent="1" source="root" target="m4"><mxGeometry relative="1" as="geometry"/></mxCell>
+
+        <!-- Edges menu1 -->
+        <mxCell id="e1a" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;strokeColor=#1565C0;strokeWidth=2;" edge="1" parent="1" source="m1" target="m1a"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e1b" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;strokeColor=#1565C0;strokeWidth=2;" edge="1" parent="1" source="m1" target="m1b"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e1c" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;strokeColor=#1565C0;strokeWidth=2;" edge="1" parent="1" source="m1" target="m1c"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e1d" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;dashed=1;strokeColor=#1565C0;strokeWidth=2;" edge="1" parent="1" source="m1" target="m1d"><mxGeometry relative="1" as="geometry"/></mxCell>
+
+        <!-- Edges menu2 -->
+        <mxCell id="e2a" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;strokeColor=#2E7D32;strokeWidth=2;" edge="1" parent="1" source="m2" target="m2a"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e2b" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;strokeColor=#2E7D32;strokeWidth=2;" edge="1" parent="1" source="m2" target="m2b"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e2c" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;dashed=1;strokeColor=#2E7D32;strokeWidth=2;" edge="1" parent="1" source="m2" target="m2c"><mxGeometry relative="1" as="geometry"/></mxCell>
+
+        <!-- Edges menu3 -->
+        <mxCell id="e3a" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;dashed=1;strokeColor=#E65100;strokeWidth=2;" edge="1" parent="1" source="m3" target="m3a"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e3b" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;dashed=1;strokeColor=#E65100;strokeWidth=2;" edge="1" parent="1" source="m3" target="m3b"><mxGeometry relative="1" as="geometry"/></mxCell>
+
+        <!-- Edges menu4 -->
+        <mxCell id="e4a" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;strokeColor=#4A148C;strokeWidth=2;" edge="1" parent="1" source="m4" target="m4a"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e4b" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;dashed=1;strokeColor=#4A148C;strokeWidth=2;" edge="1" parent="1" source="m4" target="m4b"><mxGeometry relative="1" as="geometry"/></mxCell>
+
+        <!-- Legend -->
+        <mxCell id="lg" value="Keterangan:&#10;Kotak solid = Halaman&#10;Kotak putus-putus (kuning) = Aksi/proses (tanpa halaman)&#10;Warna garis mengikuti menu induk" style="shape=note;whiteSpace=wrap;html=1;align=left;spacingLeft=10;fillColor=#FFF59D;strokeColor=#000000;strokeWidth=2;fontSize=15;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="60" y="680" width="380" height="110" as="geometry"/>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
