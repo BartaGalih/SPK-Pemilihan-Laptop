@@ -8,15 +8,11 @@ class CreateLaptopsTable extends Migration
 {
     public function up()
     {
+        // Spesifikasi laptop tidak lagi disimpan sebagai kolom tetap,
+        // melainkan dinamis pada tabel laptop_values (EAV) terhadap setiap kriteria.
         Schema::create('laptops', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->bigInteger('price');          // C1 – Harga (Rp)
-            $table->integer('ram');               // C2 – RAM (GB)
-            $table->integer('cpu_score');         // C3 – CPU Score PassMark
-            $table->decimal('weight_kg', 4, 2);  // C4 – Bobot (kg)
-            $table->integer('storage');           // C5 – Storage (GB)
-            $table->decimal('battery', 4, 1);    // C6 – Baterai (jam)
             $table->timestamps();
         });
     }

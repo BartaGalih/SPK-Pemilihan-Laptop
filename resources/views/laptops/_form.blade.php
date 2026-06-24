@@ -1,4 +1,4 @@
-{{-- resources/views/laptops/_form.blade.php --}}
+{{-- resources/views/laptops/_form.blade.php — form dinamis berdasarkan kriteria aktif --}}
 <div class="row g-3">
     <div class="col-12">
         <label class="form-label fw-semibold">Nama Laptop <span class="text-danger">*</span></label>
@@ -8,63 +8,31 @@
         @error('name') <div class="invalid-feedback">{{ $message }}</div> @enderror
     </div>
 
-    <div class="col-md-6">
-        <label class="form-label fw-semibold">Harga (Rp) <span class="text-danger">*</span></label>
-        <div class="input-group">
-            <span class="input-group-text">Rp</span>
-            <input type="number" name="price" class="form-control @error('price') is-invalid @enderror"
-                   value="{{ old('price', $laptop->price ?? '') }}" placeholder="15000000" min="1000000">
+    @if($criteria->isEmpty())
+        <div class="col-12">
+            <div class="alert alert-warning mb-0">
+                <i class="bi bi-exclamation-triangle me-1"></i>
+                Belum ada kriteria. Tambahkan kriteria terlebih dahulu di menu
+                <a href="{{ route('criteria.index') }}">Kriteria &amp; Bobot</a>.
+            </div>
         </div>
-        @error('price') <div class="text-danger small mt-1">{{ $message }}</div> @enderror
-    </div>
-
-    <div class="col-md-6">
-        <label class="form-label fw-semibold">RAM (GB) <span class="text-danger">*</span></label>
-        <select name="ram" class="form-select @error('ram') is-invalid @enderror">
-            <option value="">-- Pilih RAM --</option>
-            @foreach([4,8,16,32,64] as $r)
-                <option value="{{ $r }}" {{ old('ram', $laptop->ram ?? '') == $r ? 'selected' : '' }}>{{ $r }} GB</option>
-            @endforeach
-        </select>
-        @error('ram') <div class="invalid-feedback">{{ $message }}</div> @enderror
-    </div>
-
-    <div class="col-md-6">
-        <label class="form-label fw-semibold">CPU Score (PassMark) <span class="text-danger">*</span></label>
-        <input type="number" name="cpu_score" class="form-control @error('cpu_score') is-invalid @enderror"
-               value="{{ old('cpu_score', $laptop->cpu_score ?? '') }}" placeholder="19643" min="1">
-        <div class="form-text"><a href="https://www.cpubenchmark.net" target="_blank">Cek skor di cpubenchmark.net</a></div>
-        @error('cpu_score') <div class="invalid-feedback">{{ $message }}</div> @enderror
-    </div>
-
-    <div class="col-md-6">
-        <label class="form-label fw-semibold">Bobot Perangkat (kg) <span class="text-danger">*</span></label>
-        <div class="input-group">
-            <input type="number" name="weight_kg" class="form-control @error('weight_kg') is-invalid @enderror"
-                   value="{{ old('weight_kg', $laptop->weight_kg ?? '') }}" placeholder="1.4" step="0.01" min="0.1">
-            <span class="input-group-text">kg</span>
-        </div>
-        @error('weight_kg') <div class="text-danger small mt-1">{{ $message }}</div> @enderror
-    </div>
-
-    <div class="col-md-6">
-        <label class="form-label fw-semibold">Storage (GB) <span class="text-danger">*</span></label>
-        <select name="storage" class="form-select @error('storage') is-invalid @enderror">
-            <option value="">-- Pilih Storage --</option>
-            @foreach([256,512,1024,2048] as $s)
-                <option value="{{ $s }}" {{ old('storage', $laptop->storage ?? '') == $s ? 'selected' : '' }}>{{ $s >= 1024 ? ($s/1024).' TB' : $s.' GB' }}</option>
-            @endforeach
-        </select>
-        @error('storage') <div class="invalid-feedback">{{ $message }}</div> @enderror
-    </div>
-
-    <div class="col-md-6">
-        <label class="form-label fw-semibold">Daya Tahan Baterai (jam) <span class="text-danger">*</span></label>
-        <div class="input-group">
-            <input type="number" name="battery" class="form-control @error('battery') is-invalid @enderror"
-                   value="{{ old('battery', $laptop->battery ?? '') }}" placeholder="11" step="0.5" min="0.5">
-            <span class="input-group-text">jam</span>
-        </div>
-        @error('battery') <div class="text-danger small mt-1">{{ $message }}</div> @enderror
-    </div>
+    @else
+        <div class="col-12"><hr class="my-1"><small class="text-muted fw-semibold">Nilai per Kriteria</small></div>
+        @foreach($criteria as $c)
+            <div class="col-md-6">
+                <label class="form-label fw-semibold">
+                    {{ $c->name }}
+                    @if($c->unit)<span class="text-muted fw-normal">({{ $c->unit }})</span>@endif
+                    <span class="text-danger">*</span>
+                    <span class="badge bg-{{ $c->type === 'benefit' ? 'success' : 'danger' }} ms-1">{{ ucfirst($c->type) }}</span>
+                </label>
+                <input type="number" step="any" min="0"
+                       name="values[{{ $c->id }}]"
+                       class="form-control @error('values.'.$c->id) is-invalid @enderror"
+                       value="{{ old('values.'.$c->id, isset($laptop) ? $laptop->valueFor($c->id) : '') }}"
+                       placeholder="Masukkan nilai {{ strtolower($c->name) }}">
+                @error('values.'.$c->id) <div class="invalid-feedback">{{ $message }}</div> @enderror
+            </div>
+        @endforeach
+    @endif
 </div>

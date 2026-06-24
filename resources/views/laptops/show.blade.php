@@ -28,13 +28,19 @@
             <div class="card-header bg-transparent fw-semibold">Spesifikasi</div>
             <div class="card-body">
                 <table class="table table-borderless mb-0">
-                    <tr><th class="text-muted" style="width:40%">Harga</th>
-                        <td class="fw-bold text-success">Rp {{ number_format($laptop->price, 0, ',', '.') }}</td></tr>
-                    <tr><th class="text-muted">RAM</th><td>{{ $laptop->ram }} GB</td></tr>
-                    <tr><th class="text-muted">CPU Score (PassMark)</th><td>{{ number_format($laptop->cpu_score, 0, ',', '.') }}</td></tr>
-                    <tr><th class="text-muted">Bobot</th><td>{{ $laptop->weight_kg }} kg</td></tr>
-                    <tr><th class="text-muted">Storage</th><td>{{ $laptop->storage >= 1024 ? ($laptop->storage/1024).' TB' : $laptop->storage.' GB' }}</td></tr>
-                    <tr><th class="text-muted">Baterai</th><td>{{ $laptop->battery }} jam</td></tr>
+                    @forelse($criteria as $c)
+                        <tr>
+                            <th class="text-muted" style="width:45%">
+                                {{ $c->name }}
+                                <span class="badge bg-{{ $c->type === 'benefit' ? 'success' : 'danger' }} ms-1">{{ ucfirst($c->type) }}</span>
+                            </th>
+                            <td>{{ rtrim(rtrim(number_format($laptop->valueFor($c->id) ?? 0, 2, ',', '.'), '0'), ',') }}
+                                @if($c->unit)<small class="text-muted">{{ $c->unit }}</small>@endif
+                            </td>
+                        </tr>
+                    @empty
+                        <tr><td class="text-muted">Belum ada kriteria.</td></tr>
+                    @endforelse
                 </table>
             </div>
         </div>
@@ -55,11 +61,12 @@
                 <table class="table table-sm">
                     <thead><tr><th>Kriteria</th><th class="text-center">NEF</th><th class="text-center">NBE</th></tr></thead>
                     <tbody>
-                    @foreach(['c1'=>'Harga','c2'=>'RAM','c3'=>'CPU','c4'=>'Bobot','c5'=>'Storage','c6'=>'Baterai'] as $c => $label)
+                    @foreach($criteria as $c)
+                        @php $d = $laptop->mfepResult->detailFor($c->id); @endphp
                         <tr>
-                            <td>{{ $label }}</td>
-                            <td class="text-center">{{ $laptop->mfepResult->{"nef_{$c}"} }}</td>
-                            <td class="text-center">{{ $laptop->mfepResult->{"nbe_{$c}"} }}</td>
+                            <td>{{ $c->name }}</td>
+                            <td class="text-center">{{ $d ? number_format($d->nef, 2) : '—' }}</td>
+                            <td class="text-center">{{ $d ? number_format($d->nbe, 4) : '—' }}</td>
                         </tr>
                     @endforeach
                     </tbody>
@@ -69,7 +76,7 @@
     </div>
     @else
     <div class="col-md-5">
-        <div class="card h-100 border-dashed">
+        <div class="card h-100">
             <div class="card-body d-flex flex-column align-items-center justify-content-center text-muted">
                 <i class="bi bi-calculator fs-1 mb-2"></i>
                 <p class="mb-2">Belum ada hasil perhitungan MFEP</p>

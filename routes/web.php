@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LaptopController;
 use App\Http\Controllers\CriteriaController;
 use App\Http\Controllers\MfepController;
+use App\Http\Controllers\SnapshotController;
 
 Route::get('/', function () {
     return redirect()->route('laptops.index');
@@ -12,11 +13,17 @@ Route::get('/', function () {
 // Manajemen Laptop (CRUD)
 Route::resource('laptops', LaptopController::class);
 
-// Manajemen Kriteria (index + edit + update saja)
-Route::get('criteria',              [CriteriaController::class, 'index'])->name('criteria.index');
-Route::get('criteria/{criterium}/edit',   [CriteriaController::class, 'edit'])->name('criteria.edit');
-Route::put('criteria/{criterium}',        [CriteriaController::class, 'update'])->name('criteria.update');
+// Manajemen Kriteria (CRUD penuh + soft delete)
+Route::resource('criteria', CriteriaController::class)
+    ->parameters(['criteria' => 'criterium'])
+    ->except(['show']);
 
 // Hasil & Kalkulasi MFEP
-Route::get('results',              [MfepController::class, 'index'])->name('results.index');
-Route::post('results/calculate',   [MfepController::class, 'calculate'])->name('results.calculate');
+Route::get('results',            [MfepController::class, 'index'])->name('results.index');
+Route::post('results/calculate', [MfepController::class, 'calculate'])->name('results.calculate');
+Route::post('results/snapshot',  [MfepController::class, 'saveSnapshot'])->name('results.snapshot');
+
+// Arsip / Snapshot hasil
+Route::get('snapshots',            [SnapshotController::class, 'index'])->name('snapshots.index');
+Route::get('snapshots/{snapshot}', [SnapshotController::class, 'show'])->name('snapshots.show');
+Route::delete('snapshots/{snapshot}', [SnapshotController::class, 'destroy'])->name('snapshots.destroy');

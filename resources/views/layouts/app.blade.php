@@ -105,6 +105,12 @@
                         <i class="bi bi-bar-chart-steps me-2"></i>Hasil Rekomendasi
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a href="{{ route('snapshots.index') }}"
+                       class="nav-link {{ request()->routeIs('snapshots.*') ? 'active' : '' }}">
+                        <i class="bi bi-archive me-2"></i>Arsip Hasil
+                    </a>
+                </li>
             </ul>
         </div>
 
