@@ -6,9 +6,9 @@ use App\Http\Controllers\CriteriaController;
 use App\Http\Controllers\MfepController;
 use App\Http\Controllers\SnapshotController;
 
-Route::get('/', function () {
-    return redirect()->route('laptops.index');
-});
+Route::get('/', [App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
+
+Route::get('/dashboard', [App\Http\Controllers\DashboardController::class, 'index']);
 
 // Manajemen Laptop (CRUD)
 Route::resource('laptops', LaptopController::class);

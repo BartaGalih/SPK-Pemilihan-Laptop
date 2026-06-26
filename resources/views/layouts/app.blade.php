@@ -88,6 +88,12 @@
             <small class="text-uppercase px-3" style="opacity:.5;font-size:.7rem;letter-spacing:1px">Menu</small>
             <ul class="nav flex-column mt-1">
                 <li class="nav-item">
+                    <a href="{{ route('dashboard') }}"
+                       class="nav-link {{ request()->routeIs('dashboard') ? 'active' : '' }}">
+                        <i class="bi bi-speedometer2 me-2"></i>Dashboard
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a href="{{ route('laptops.index') }}"
                        class="nav-link {{ request()->routeIs('laptops.*') ? 'active' : '' }}">
                         <i class="bi bi-hdd-stack me-2"></i>Data Laptop
