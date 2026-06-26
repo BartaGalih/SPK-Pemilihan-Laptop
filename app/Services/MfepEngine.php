@@ -203,7 +203,7 @@ class MfepEngine
 
                 // ROUND ke bilangan bulat (sesuai ROUND(...,0) di Excel).
                 // N = 1 dijaga agar tidak terjadi pembagian nol.
-                $nef = ($n <= 1) ? 5.0 : round(1 + (count($laptops) - 1) * ($rank - 1) / ($n - 1));
+                $nef = ($n <= 1) ? count($laptops) : round(1 + (count($laptops) - 1) * ($rank - 1) / ($n - 1));
 
                 $matrix[$laptop->id][$criterion->id] = $nef;
             }
