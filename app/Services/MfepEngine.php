@@ -167,16 +167,21 @@ class MfepEngine
     // ---------------------------------------------------------------
 
     /**
-     * Bangun matriks NEF[laptop_id][criteria_id] dengan ranking rank-proportional.
+     * Bangun matriks NEF[laptop_id][criteria_id] — meniru persis rumus Excel:
      *
-     * BENEFIT : nilai lebih besar → rank lebih tinggi → NEF lebih tinggi
-     * COST    : nilai lebih kecil → rank lebih tinggi → NEF lebih tinggi
+     *   NEF = ROUND( 1 + 4 * (RANK.EQ - 1) / (N - 1) , 0 )   → bilangan bulat 1–5
      *
-     *   NEF = 5 - ((rank - 1) / (maxRank - 1)) * 4   (bila maxRank > 1)
-     *   NEF = 5                                       (bila maxRank = 1)
+     * RANK.EQ memakai peringkat kompetisi (nilai seri mendapat peringkat sama):
+     *   BENEFIT (order ascending) : rank = 1 + jumlah nilai yang LEBIH KECIL
+     *   COST    (order descending): rank = 1 + jumlah nilai yang LEBIH BESAR
+     *
+     * Sehingga nilai terbaik mendapat peringkat tertinggi → NEF mendekati 5,
+     * dan penyebut tetap (N - 1) — bukan peringkat maksimum — agar konsisten
+     * dengan spreadsheet meskipun terdapat banyak nilai seri.
      */
     private function buildNefMatrix(Collection $laptops, Collection $criteria): array
     {
+        $n      = $laptops->count();
         $matrix = [];
 
         foreach ($criteria as $criterion) {
@@ -186,35 +191,21 @@ class MfepEngine
                 $values[$laptop->id] = (float) ($laptop->valueFor($criterion->id) ?? 0);
             }
 
-            $sorted = $values;
-            if ($criterion->type === 'benefit') {
-                arsort($sorted); // DESC: nilai besar → rank 1
-            } else {
-                asort($sorted);  // ASC : nilai kecil → rank 1
-            }
-
-            // Assign rank dengan tie-handling (nilai sama → rank sama)
-            $rankMap   = [];
-            $prevValue = null;
-            $prevRank  = 0;
-            $position  = 1;
-            foreach ($sorted as $id => $value) {
-                if ($prevValue !== null && $value === $prevValue) {
-                    $rankMap[$id] = $prevRank;
-                } else {
-                    $rankMap[$id] = $position;
-                    $prevRank     = $position;
-                    $prevValue    = $value;
-                }
-                $position++;
-            }
-
-            $maxRank = max($rankMap);
-
             foreach ($laptops as $laptop) {
-                $rank = $rankMap[$laptop->id] ?? $maxRank;
-                $nef  = ($maxRank === 1) ? 5.0 : 5 - (($rank - 1) / ($maxRank - 1)) * 4;
-                $matrix[$laptop->id][$criterion->id] = round($nef, 2);
+                $x = $values[$laptop->id];
+
+                // RANK.EQ — nilai seri otomatis berbagi peringkat yang sama.
+                if ($criterion->type === 'benefit') {
+                    $rank = 1 + count(array_filter($values, fn ($v) => $v < $x));
+                } else {
+                    $rank = 1 + count(array_filter($values, fn ($v) => $v > $x));
+                }
+
+                // ROUND ke bilangan bulat (sesuai ROUND(...,0) di Excel).
+                // N = 1 dijaga agar tidak terjadi pembagian nol.
+                $nef = ($n <= 1) ? count($laptops) : round(1 + (count($laptops) - 1) * ($rank - 1) / ($n - 1));
+
+                $matrix[$laptop->id][$criterion->id] = $nef;
             }
         }
 
