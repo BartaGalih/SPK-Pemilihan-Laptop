@@ -126,10 +126,18 @@ routes/web.php
 
 ## Algoritma MFEP (`MfepEngine`)
 
-1. **Normalisasi → NEF (skala 1–5)**  
-   Setiap kriteria diurutkan berdasarkan jenisnya (benefit: DESC, cost: ASC).  
-   Rank 1 (terbaik) mendapat NEF = 5, rank terburuk mendapat NEF = 1.  
-   Formula: `NEF = 5 - ((rank - 1) / (maxRank - 1)) * 4`
+1. **Normalisasi → NEF (skala 1–5)** menggunakan peringkat `RANK.EQ` (setara rumus spreadsheet):
+
+   ```
+   NEF = ROUND( 1 + 4 × (rank − 1) / (N − 1) , 0 )
+   ```
+
+   - `N` = jumlah laptop. Hasil dibulatkan ke bilangan bulat 1–5.
+   - `rank` = peringkat kompetisi (nilai seri mendapat peringkat sama):
+     - **Benefit** (makin besar makin baik): `rank = 1 + jumlah nilai yang lebih kecil`
+     - **Cost** (makin kecil makin baik): `rank = 1 + jumlah nilai yang lebih besar`
+   - Nilai terbaik → peringkat tertinggi → NEF mendekati 5; nilai terburuk → NEF = 1.
+   - Penyebut tetap `N − 1` (bukan peringkat maksimum) agar konsisten meski banyak nilai seri.
 
 2. **NBE = NBF × NEF**
 
